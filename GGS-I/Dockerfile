@@ -22,5 +22,5 @@ RUN composer install && npm i
 
 #CMD php artisan migrate --force &&
 #CMD php artisan serve
-CMD php-fpm
-#CMD ["tail", "-f", "/dev/null"]
+#CMD php-fpm
+CMD ["tail", "-f", "/dev/null"]
