@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./GGS-I/public:/var/www/html/public
+      - ./GGS-I/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - laravel
+    networks:
+      - app-network
+
+  laravel:
+    build:
+      context: ./GGS-I
+      dockerfile: Dockerfile
+    volumes:
+      - ./GGS-I:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: GGS
+      MYSQL_ROOT_PASSWORD: viethe170916
+    networks:
+      - app-network
+
+  nextjs:
+    build:
+      context: ./next-app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
